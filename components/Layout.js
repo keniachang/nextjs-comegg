@@ -1,19 +1,16 @@
 import Meta from './Meta';
+import Nav from './Nav';
+import Footer from './Footer';
 
 const Layout = ({ children }) => {
     return (
         <>
             <Meta />
-            <header>Navbar</header>
-            <main>{children}</main>
-            <footer>
-                <div>
-                    Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>
-                </div>
-                <div>
-                    <p>Copyright &copy; 2021, Comegg</p>
-                </div>
-            </footer>
+            <Nav />
+            <main className='container min-w-full min-h-screen'>
+                {children}
+            </main>
+            <Footer />
         </>
     );
 };
