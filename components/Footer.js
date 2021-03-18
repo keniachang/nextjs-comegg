@@ -1,6 +1,6 @@
 const Footer = () => {
     return (
-        <footer className='min-w-full h-20 py-2 bg-green-600 text-white text-center flex flex-col justify-between'>
+        <footer className='min-w-full h-20 mt-10 py-2 bg-green-600 text-white text-center flex flex-col justify-between'>
             <div>
                 Icons made by{' '}
                 <a href='https://www.freepik.com' title='Freepik'>
