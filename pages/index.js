@@ -32,17 +32,17 @@ export default function Home({ isConnected, topThree }) {
             <Meta title='Comegg | Simple GPU Market' />
 
             {/* 3 slides banner taking top half */}
-            <section className='w-9/10 2xl:w-3/4 relative my-6 mx-auto border-4 border-gray-400 shadow'>
+            <section className='relative w-9/10 2xl:w-3/4 my-6 mx-auto border-4 border-gray-400 shadow'>
                 {/* <h1>Banner</h1> */}
                 <img src={images[imgState]} className='w-full h-52 md:h-72' />
                 <a
                     onClick={() => updateImgState(-1)}
-                    className='p-2 absolute top-1/2 bg-black bg-opacity-50 text-white cursor-pointer select-none'>
+                    className='absolute top-1/2 p-2 bg-black bg-opacity-50 text-white cursor-pointer select-none'>
                     &#10094;
                 </a>
                 <a
                     onClick={() => updateImgState(1)}
-                    className='p-2 absolute top-1/2 right-0 bg-black bg-opacity-50 text-white cursor-pointer select-none'>
+                    className='absolute top-1/2 right-0 p-2 bg-black bg-opacity-50 text-white cursor-pointer select-none'>
                     &#10095;
                 </a>
             </section>
@@ -99,7 +99,11 @@ export default function Home({ isConnected, topThree }) {
                 </div>
 
                 <div className='md:col-span-2'>
-                    <button className='border-2 border-green-500 py-2 px-4 rounded text-lg shadow transition duration-500 transform hover:bg-green-500 hover:scale-110 hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50'>
+                    <button className='border-2 border-green-500 py-2 px-4 rounded shadow text-lg transition duration-500 transform hover:bg-green-500 hover:scale-110 hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50'>
+                        {/* <Link
+                            href='/components/gpus/pages/[page]'
+                            as='/components/gpus/pages/1'
+                        > */}
                         <Link href='/components/gpus/pages/1'>
                             View More...
                         </Link>

@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { connectToDatabase } from '../../../../../util/mongodb';
+import GPU from '../../../../../components/GPU';
 
 const index = ({ gpus, pages, page }) => {
     return (
@@ -10,27 +11,7 @@ const index = ({ gpus, pages, page }) => {
             <div className='flex flex-col justify-items-start space-y-6'>
                 <div className='md:pt-6 px-4 grid grid-cols-1 md:grid-cols-3 gap-10 justify-items-center'>
                     {gpus.map((gpu) => (
-                        <div
-                            key={gpu._id}
-                            className='border-2 boder-gray-100 p-2 text-lg'>
-                            {/* <Link href={`/components/gpus/${gpu._id}`}> */}
-                            <Link
-                                href='/components/gpus/[id]'
-                                as={`/components/gpus/${gpu._id}`}>
-                                <a>
-                                    <img
-                                        src={gpu.image}
-                                        className='m-w-full h-auto'
-                                    />
-                                    <h2 className='my-2 font-medium'>
-                                        {`${gpu.brand} ${gpu.series} ${gpu.gpuModel}`}
-                                    </h2>
-                                    <p className='text-right'>
-                                        $ {gpu.price.$numberDecimal}
-                                    </p>
-                                </a>
-                            </Link>
-                        </div>
+                        <GPU key={gpu._id} gpu={gpu} />
                     ))}
                 </div>
                 <div className='justify-self-end text-xl text-center'>
