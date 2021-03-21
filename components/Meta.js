@@ -20,7 +20,7 @@ const Meta = ({ title }) => {
                 sizes='180x180'
                 href='/apple-touch-icon.png'
             />
-            <link rel='manifest' href='/site.webmanifest' />
+            <link rel='manifest' href='/manifest.json' />
             <link
                 rel='mask-icon'
                 href='/safari-pinned-tab.svg'
