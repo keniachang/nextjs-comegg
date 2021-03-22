@@ -7,25 +7,27 @@ const cart = () => {
     const [cartItems, setCartItems] = useState([]);
     useEffect(() => {
         const cart = localStorage.getItem('cart');
-        const currentCartItems = (cart && cart.length) ? JSON.parse(cart) : null;
-        if(currentCartItems){
+        const currentCartItems = cart && cart.length ? JSON.parse(cart) : null;
+        if (currentCartItems) {
             setCartItems(currentCartItems);
         }
     }, []);
 
     // calculate total price
     function total() {
-        if(cartItems) {
-            const prices = cartItems.map(cartItem => parseFloat(cartItem.price));
-            const totalPrice = prices.reduce(((sum, price) => sum + price), 0);
+        if (cartItems) {
+            const prices = cartItems.map((cartItem) =>
+                parseFloat(cartItem.price)
+            );
+            const totalPrice = prices.reduce((sum, price) => sum + price, 0);
             return Math.round(totalPrice * 100) / 100;
         }
         return 0;
     }
 
     // remove a cart item
-    function removeCartItem(cartItemId) {
-        const updCart = cartItems.filter(cartItem => cartItem.id !== cartItemId);
+    function removeCartItem(itemIndex) {
+        const updCart = cartItems.filter((cartItem, i) => i !== itemIndex);
         setCartItems(updCart);
         localStorage.setItem('cart', JSON.stringify(updCart));
     }
@@ -39,15 +41,13 @@ const cart = () => {
 
             {/* Cart */}
             <div className='pt-4 grid md:grid-cols-3 justify-items-center'>
-
                 {/* Items */}
                 <div className='w-full md:col-span-2'>
-                    {(cartItems && cartItems.length) ? (
-                        cartItems.map((cartItem) => (
+                    {cartItems && cartItems.length ? (
+                        cartItems.map((cartItem, ind) => (
                             <div
-                                key={cartItem.id}
-                                className='relative w-4/5 md:w-full mb-6 mx-auto md:ml-4 border-2 border-gray-200 p-6 px-4'
-                            >
+                                key={ind}
+                                className='relative w-4/5 md:w-full mb-6 mx-auto md:ml-4 border-2 border-gray-200 p-6 px-4'>
                                 {/* Item info */}
                                 <div className='pt-2 flex justify-between text-lg font-medium'>
                                     <h2>{cartItem.item}</h2>
@@ -55,9 +55,19 @@ const cart = () => {
                                 </div>
                                 {/* Delete button */}
                                 <div className='absolute top-1 right-1'>
-                                    <button onClick={() => removeCartItem(cartItem.id)}>
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className='w-5 text-gray-700'>
-                                            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                                    <button
+                                        onClick={() => removeCartItem(ind)}
+                                        className='focus:outline-none'>
+                                        <svg
+                                            xmlns='http://www.w3.org/2000/svg'
+                                            viewBox='0 0 20 20'
+                                            fill='currentColor'
+                                            className='w-5 text-gray-700'>
+                                            <path
+                                                fillRule='evenodd'
+                                                d='M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z'
+                                                clipRule='evenodd'
+                                            />
                                         </svg>
                                     </button>
                                 </div>
@@ -70,7 +80,7 @@ const cart = () => {
                         </div>
                     )}
                 </div>
-                
+
                 {/* Cart summary */}
                 <div className='w-52 md:w-44 lg:w-60 mt-4 md:mt-0 md:col-start-3 md:row-start-1'>
                     <div className='w-full border-2 border-gray-200 p-4 text-2xl'>
@@ -80,7 +90,7 @@ const cart = () => {
                             <p>&ensp;${total()}</p>
                         </div>
                         {/* Checkout button */}
-                        {(cartItems && cartItems.length) ? (
+                        {cartItems && cartItems.length ? (
                             <div className='text-center'>
                                 <button className='bg-green-500 py-2 px-4 rounded shadow text-lg text-white hover:bg-green-400 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50'>
                                     <Link href='/checkout'>

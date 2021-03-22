@@ -1,19 +1,24 @@
+import { useState } from 'react';
 import Link from 'next/link';
 import { connectToDatabase } from '../../../../util/mongodb';
+import Alert from '../../../../components/Alert';
 
 const index = ({ gpu }) => {
+    const [added, setAdded] = useState(false);
+
     function addToCart() {
         const cart = localStorage.getItem('cart');
-        const cartItems = (cart && cart.length) ? JSON.parse(cart) : [];
+        const cartItems = cart && cart.length ? JSON.parse(cart) : [];
         const cartItem = {
             id: gpu._id,
-            item: `${gpu.brand} ${gpu.series} ${gpu.gpuModel}`, 
+            item: `${gpu.brand} ${gpu.series} ${gpu.gpuModel}`,
             price: gpu.price.$numberDecimal
         };
         // cartItems.push(gpu._id);
         cartItems.push(cartItem);
         localStorage.setItem('cart', JSON.stringify(cartItems));
         // console.log('Item is added to cart');
+        setAdded(true);
     }
 
     return (
@@ -49,11 +54,13 @@ const index = ({ gpu }) => {
                         </span>
                         <button
                             onClick={addToCart}
-                            className='ml-4 border-2 border-green-500 py-2 px-4 rounded shadow text-lg transition duration-300 transform hover:bg-green-500 hover:scale-110 hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50'
-                        >
+                            className='ml-4 border-2 border-green-500 py-2 px-4 rounded shadow text-lg transition duration-300 transform hover:bg-green-500 hover:scale-110 hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50'>
                             Add To Cart
                         </button>
                     </div>
+                    {added ? (
+                        <Alert setShow={setAdded} message='Item Added' />
+                    ) : null}
                 </div>
             </div>
 
