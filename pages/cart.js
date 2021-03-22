@@ -1,30 +1,8 @@
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
 import Meta from '../components/Meta';
 
 const cart = () => {
-    /* 
-    should run on client, and cartItems need to be retrieved 
-    everytime the page is requested (update it)
-    */
-    // currently both options 1 & 2 only run once (at built item) on client
-    /* option 1.
-    const isServer = typeof window === 'undefined';
-    let cartItems = [];
-    if (!isServer) {
-        const cart = localStorage.getItem('cart');
-        cartItems = (cart && cart.length) ?? JSON.parse(cart);
-    }
-    */
-    /* option 2.
-    let cartItems = [];
-    useEffect(() => {
-        const cart = localStorage.getItem('cart');
-        cartItems = (cart && cart.length) ?? JSON.parse(cart);
-    }, []);
-    */
-
-    const router = useRouter();
+    // retrieve cart items from localStorage if there is any
     const [cartItems, setCartItems] = useState([]);
     useEffect(() => {
         const cart = localStorage.getItem('cart');
@@ -39,17 +17,16 @@ const cart = () => {
         if(cartItems) {
             const prices = cartItems.map(cartItem => parseFloat(cartItem.price));
             const totalPrice = prices.reduce(((sum, price) => sum + price), 0);
-            return totalPrice;
+            return Math.round(totalPrice * 100) / 100;
         }
         return 0;
     }
 
-    // delete a cart item
-    function removeCartItem(cartItemIndex) {
-        cartItems.splice(cartItemIndex, 1)
-        setCartItems(cartItems);
-        localStorage.setItem('cart', JSON.stringify(cartItems));
-        router.reload();
+    // remove a cart item
+    function removeCartItem(cartItemId) {
+        const updCart = cartItems.filter(cartItem => cartItem.id !== cartItemId);
+        setCartItems(updCart);
+        localStorage.setItem('cart', JSON.stringify(updCart));
     }
 
     return (
@@ -62,7 +39,7 @@ const cart = () => {
             <div className='pt-6 grid md:grid-cols-3 justify-items-center'>
                 {/* Items */}
                 {(cartItems && cartItems.length) ? (
-                    cartItems.map((cartItem, itemIndex) => (
+                    cartItems.map((cartItem) => (
                         <div
                             key={cartItem.id}
                             className='relative w-full mb-6 ml-4 border-2 border-gray-200 p-6 px-4 md:col-span-2 md:row-span-1'
@@ -74,7 +51,7 @@ const cart = () => {
                             </div>
                             {/* Delete button */}
                             <div className='absolute top-1 right-1'>
-                                <button onClick={() => removeCartItem(itemIndex)}>
+                                <button onClick={() => removeCartItem(cartItem.id)}>
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className='w-5 text-gray-700'>
                                         <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
                                     </svg>
