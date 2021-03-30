@@ -28,4 +28,4 @@ Generate icons, for more information visit https://realfavicongenerator.net
 
 ### Deployment
 
-Vercel
+Vercel - https://comegg.vercel.app/
